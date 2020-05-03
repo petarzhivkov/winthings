@@ -6,8 +6,8 @@
   - installed 'openhab-2.5.4' see https://www.openhab.org/download/
 
 # 1. Download and build the projects (using: mvn install or eclipse neon or later) in the following order:
-  a. org-osgi-bom (pom - BOM project)
-  b. org-pekoo-bundles (pom - parent bundles project)
+  - org-osgi-bom (pom - BOM project)
+  - org-pekoo-bundles (pom - parent bundles project)
   
 # 2. Place the builded jars 'org.openhab.binding.withings-2.4.0.jar' and 'org-pekoo-proxy-1.0.0.jar' into your 'OPENHAB_HOME\addons' directory
 
