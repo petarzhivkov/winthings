@@ -1,0 +1,136 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.pekoo.osgi</groupId>
+    <artifactId>org-pekoo-bundles</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <packaging>bundle</packaging>
+  <artifactId>org-pekoo-proxy</artifactId>
+  <name>openHAB Withings Proxy</name>
+  
+  
+  <properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<osgi.version>5.0.0</osgi.version>
+  </properties>
+  
+  <dependencies>
+  
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>${osgi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+            <version>${osgi.version}</version>
+        </dependency>
+        
+        <!-- GUAVA - FOR CACHEING -->
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>27.0.1.jre-redhat-00001</version>
+		</dependency>
+		
+		<!-- JACKSON - JSON SERIALIZE/DESERIALIZE -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		</dependency>	
+    </dependencies>
+    
+    <build>
+        <plugins>
+
+			<!-- NEED TO ADD THIS TO ATTACH THE 'application.properties' 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>src/main/resources/application.properties</file>
+                                    <type>cfg</type>
+                                    <classifier>application</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+			-->
+			<!-- APPACHE FELIX - BUNDLE META-INF BUILDER -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>4.2.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>
+                            ${project.groupId}.${project.artifactId}
+                        </Bundle-SymbolicName>
+                        <Bundle-Name>${project.name}</Bundle-Name>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <Bundle-Activator>
+                            org.pekoo.osgi.springboot.SpringBootBundleActivator
+                        </Bundle-Activator>
+                        <Export-Package>org.pekoo.osgi.springboot</Export-Package>
+                        <Private-Package>
+                            org.pekoo.osgi.springboot.*
+                        </Private-Package>
+                        <Import-Package>
+                            !org.springframework.*,
+                            *;resolution:=optional,
+                        </Import-Package>
+                        <Embed-Dependency>
+                            *;scope=compile
+                        </Embed-Dependency>
+                        <Embed-Transitive>
+                            true
+                        </Embed-Transitive>
+                        <Service-Component>*</Service-Component>
+                        <_dsannotations>*</_dsannotations>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>

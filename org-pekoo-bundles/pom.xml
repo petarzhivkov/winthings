@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.pekoo.osgi</groupId>
+  <artifactId>org-pekoo-bundles</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>openHAB Bindings Parent</name>
+  
+  <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.pekoo.osgi</groupId>
+                <artifactId>org-osgi-bom</artifactId>
+                <version>1.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+			<dependency>
+			    <groupId>org.springframework.boot</groupId>
+			    <artifactId>spring-boot-starter-parent</artifactId>
+			    <version>2.1.4.RELEASE</version>
+			    <type>pom</type>
+			    <scope>import</scope>
+			</dependency>
+        </dependencies>
+  </dependencyManagement>
+  
+  <repositories>
+    <repository>
+      <id>openhab-artifactory-release</id>
+      <name>JFrog Artifactory Repository</name>
+      <url>https://openhab.jfrog.io/openhab/libs-release</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>openhab-artifactory-snapshot</id>
+      <name>JFrog Artifactory Repository</name>
+      <url>https://openhab.jfrog.io/openhab/libs-snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>org.openhab.binding.withings</module> 
+  	<module>org-pekoo-proxy</module>
+  </modules>
+  
+</project>

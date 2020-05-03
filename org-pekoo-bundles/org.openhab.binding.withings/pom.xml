@@ -1,0 +1,144 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.pekoo.osgi</groupId>
+		<artifactId>org-pekoo-bundles</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<packaging>bundle</packaging>
+	<groupId>org.openhab.binding</groupId>
+	<artifactId>org.openhab.binding.withings</artifactId>
+	<version>2.4.0</version>
+	<name>openHAB Withings Binding</name>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<osgi.version>5.0.0</osgi.version>
+	</properties>
+
+	<dependencies>
+
+		<!-- OSGI -->
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.framework</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.service.cm</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.service.event</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.service.component</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>${osgi.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- OPENHAB BUNDLES -->
+		<dependency>
+			<groupId>org.openhab.bundles</groupId>
+			<artifactId>binding</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<!-- OPENHAB CORE -->
+		<dependency>
+			<groupId>org.openhab.core</groupId>
+			<artifactId>org.openhab.core.compat1x</artifactId>
+		</dependency>
+
+		<!-- GOOGLE GSON -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+
+		<!-- LOGGER -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<archive>
+						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			-->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>4.2.1</version>
+                <extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Name>openHAB Withings Binding</Bundle-Name>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Bundle-License>http://www.eclipse.org/legal/epl-2.0</Bundle-License>
+						<Bundle-Vendor>openHAB.org</Bundle-Vendor>
+						<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+						<Bundle-Description>This is the Withings binding of the open Home Automation Bus (openHAB)</Bundle-Description>
+						<Bundle-DocURL>http://www.openhab.org</Bundle-DocURL>
+						<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+						<Bundle-ClassPath>.,lib/gson-2.2.4.jar</Bundle-ClassPath>
+						<Private-Package>org.openhab.binding.withings.internal</Private-Package>
+						<Ignore-Package>org.openhab.binding.withings.internal</Ignore-Package>
+						<Import-Package>
+							org.openhab.core.binding;version=!,
+							org.openhab.core.events;version=!,
+							org.openhab.core.items;version=!,
+							org.openhab.core.library.items;version=!,
+							org.openhab.core.library.types;version=!,
+							org.openhab.core.service;version=!,
+							org.openhab.core.types;version=!,
+							org.openhab.model.item.binding;version=!,
+							org.osgi.framework;version=!,
+							org.osgi.service.cm;version=!,
+							org.osgi.service.component;version=!,
+							org.osgi.service.event;version=!,
+							org.slf4j;version=!
+						</Import-Package>
+						<Export-Package>org.openhab.binding.withings.*; version=2.4.0</Export-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+</project>

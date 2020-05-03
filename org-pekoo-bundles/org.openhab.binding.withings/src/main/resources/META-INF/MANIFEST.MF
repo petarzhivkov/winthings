@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-Description: This is the Withings binding of the open Home Auto
+ mation Bus (openHAB)
+Bundle-License: http://www.eclipse.org/legal/epl-2.0
+Bundle-SymbolicName: org.openhab.binding.withings
+Require-Bundle: org.apache.commons.codec;bundle-version="1.4.0"
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Vendor: openHAB.org
+Bundle-DocURL: http://www.openhab.org
+Import-Package: org.apache.commons.io,org.apache.commons.lang,org.open
+ hab.core.binding,org.openhab.core.events,org.openhab.core.items,org.o
+ penhab.core.library.items,org.openhab.core.library.types,org.openhab.
+ core.service,org.openhab.core.types,org.openhab.model.item.binding,or
+ g.osgi.framework,org.osgi.service.cm,org.osgi.service.component,org.o
+ sgi.service.event,org.slf4j
+Service-Component: OSGI-INF/*.xml
+Export-Package: org.openhab.binding.withings
+Bundle-Name: openHAB Withings Binding
+Bundle-ClassPath: .,lib/gson-2.2.4.jar
+Bundle-Version: 2.4.0
+Private-Package: org.openhab.binding.withings.internal
+Ignore-Package: org.openhab.binding.withings.internal
