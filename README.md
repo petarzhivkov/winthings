@@ -31,7 +31,7 @@ Check 'Configuration->Items' to verify 'withings.items' file created earlier.
 
 # 8. Open another window in your browser using 'http://localhost:8190/withings-spring/register' (notice the port is 8190):
  - Regiser new user name (e.g. thomas). On success you will be redirected to 'Authorize OpenHab Withings User' proxy page. 
- - Enter the user name previously registered again and submit. The proxy will redirect you to 'withings.com'
+ - Enter the user name previously registered and submit. The proxy will redirect you to 'withings.com'
  - Authorize the partner application in wintings page. (It's all about mapping the new user in openHab with your withings account)
  
 # 9. Check Administrator Karaf console for:
