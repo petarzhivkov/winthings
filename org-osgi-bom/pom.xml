@@ -1,0 +1,206 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.pekoo.osgi</groupId>
+  <artifactId>org-osgi-bom</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  
+  
+  <repositories>
+    <repository>
+      <id>openHapRepo1</id>
+      <name>openHapRepo1</name>
+      <url>https://dl.bintray.com/openhab/mvn/</url>
+    </repository>
+    <repository>
+      <id>jcenter</id>
+      <name>JCenter Repository</name>
+      <url>https://jcenter.bintray.com/</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>openhab-artifactory-release</id>
+      <name>JFrog Artifactory Repository</name>
+      <url>https://openhab.jfrog.io/openhab/libs-release</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>openhab-artifactory-snapshot</id>
+      <name>JFrog Artifactory Repository</name>
+      <url>https://openhab.jfrog.io/openhab/libs-snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  
+  <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<osgi.framework.version>1.9.0</osgi.framework.version>
+		<osgi.service.cm.version>1.6.0</osgi.service.cm.version>
+		<osgi.service.version>1.4.0</osgi.service.version>
+		<openhab.bundle.version>1.14.0</openhab.bundle.version>
+		<openhab.core.version>2.4.0</openhab.core.version>
+		<slf4j.version>1.7.25</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<commons.codec.version>1.10</commons.codec.version>
+		<commons.version>2.6</commons.version>
+		<commons.logging>1.2</commons.logging>
+		<gson.version>2.2.4</gson.version>
+		<spring.version>2.1.4.RELEASE</spring.version>
+		<bundle.plugin.version>4.2.0</bundle.plugin.version>
+  </properties>
+  
+  <dependencyManagement>
+  
+	  <dependencies>
+			
+			<!-- OSGI -->
+			<dependency>
+			    <groupId>org.osgi</groupId>
+			    <artifactId>org.osgi.framework</artifactId>
+			    <version>${osgi.framework.version}</version>
+			    <scope>provided</scope>
+			</dependency>
+	
+			<dependency>
+			    <groupId>org.osgi</groupId>
+			    <artifactId>org.osgi.service.cm</artifactId>
+			    <version>${osgi.service.cm.version}</version>
+			    <scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.osgi</groupId>
+			    <artifactId>org.osgi.service.event</artifactId>
+			    <version>${osgi.service.version}</version>
+			    <scope>provided</scope>
+			</dependency>
+	
+			<dependency>
+			    <groupId>org.osgi</groupId>
+			    <artifactId>org.osgi.service.component</artifactId>
+			    <version>${osgi.service.version}</version>
+			</dependency>
+	
+			<!-- OPENHAB BUNDLES -->
+			<dependency>
+			    <groupId>org.openhab.bundles</groupId>
+			    <artifactId>binding</artifactId>
+			    <version>${openhab.bundle.version}</version>
+			    <type>pom</type>
+			</dependency>
+			
+			<!-- OPENHAB CORE -->
+			<dependency>
+			    <groupId>org.openhab.core</groupId>
+			    <artifactId>org.openhab.core.compat1x</artifactId>
+			    <version>${openhab.core.version}</version>
+			</dependency>
+			
+			<!-- GOOGLE GSON -->
+			<dependency>
+			    <groupId>com.google.code.gson</groupId>
+			    <artifactId>gson</artifactId>
+			    <version>${gson.version}</version>
+			</dependency>
+			
+			<!-- LOGGER -->
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>slf4j-simple</artifactId>
+			    <version>${slf4j.version}</version>
+			</dependency>
+	
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>slf4j-api</artifactId>
+			    <version>${slf4j.version}</version>
+			</dependency>
+
+	<!--  
+			<dependency>
+			    <groupId>log4j</groupId>
+			    <artifactId>log4j</artifactId>
+			    <version>${log4j.version}</version>
+			</dependency>
+	-->		
+			
+			<!-- APACHE COMMONS -->
+			<dependency>
+			    <groupId>commons-codec</groupId>
+			    <artifactId>commons-codec</artifactId>
+			    <version>${commons.codec.version}</version>
+			</dependency>
+			
+			<dependency>
+		    	<groupId>commons-logging</groupId>
+		    	<artifactId>commons-logging</artifactId>
+		    	<version>${commons.logging}</version>
+			</dependency>
+
+			<dependency>
+			    <groupId>commons-lang</groupId>
+			    <artifactId>commons-lang</artifactId>
+			    <version>${commons.version}</version>
+			</dependency>
+	
+			<dependency>
+			    <groupId>commons-io</groupId>
+			    <artifactId>commons-io</artifactId>
+			    <version>${commons.version}</version>
+			</dependency>
+	
+			<!-- APPACHE FELIX -->
+			<dependency>
+		      	<groupId>org.apache.felix</groupId>
+		      	<artifactId>org.osgi.core</artifactId>
+		      	<version>${osgi.service.version}</version>
+    		</dependency>
+    		
+	    	<!--  SPRING -->
+	    	<dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-starter-web</artifactId>
+	            <version>${spring.version}</version>
+	            <exclusions>
+	                <exclusion>
+	                    <groupId>org.springframework.boot</groupId>
+	                    <artifactId>spring-boot-starter-tomcat</artifactId>
+	                </exclusion>
+	            </exclusions>
+	        </dependency>
+	        
+	        <dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-starter-actuator</artifactId>
+	            <version>${spring.version}</version>
+	        </dependency>
+	        
+	        <dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-starter-jetty</artifactId>
+	            <version>${spring.version}</version>
+	        </dependency>
+
+	    </dependencies>
+    
+  </dependencyManagement>
+  
+</project>
