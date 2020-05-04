@@ -119,7 +119,7 @@ public class OAuthConfig {
 	}
 
 	public String getRrrorUrl(String err) {
-		String errorUrl=oauthApiDetails.getThisServerHttpScheme()+"://" + oauthApiDetails.getThisServerHost() +":"+oauthApiDetails.getThisServerPort()+"/error";
+		String errorUrl=oauthApiDetails.getThisServerHttpScheme()+"://" + oauthApiDetails.getThisServerHost() +":"+oauthApiDetails.getThisServerPort()+"/withings-spring/error";
 		if(err!=null && !err.isEmpty()) {
 			try{
 				errorUrl+="?errorId=" + HttpConsumer.urlEncodedString(err);

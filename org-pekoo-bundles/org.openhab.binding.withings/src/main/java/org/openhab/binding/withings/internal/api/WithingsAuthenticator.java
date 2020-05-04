@@ -1,5 +1,7 @@
 package org.openhab.binding.withings.internal.api;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -62,7 +64,8 @@ public class WithingsAuthenticator implements ManagedService {
         if (withingsAccount == null) {
             logger.warn("Couldn't find Credentials of Account "+accountId+". Please check openhab.cfg or withings.cfg.");
             printSetupInstructions();
-            return;
+            //return;
+            throw new NullPointerException("Couldn't find Credentials of Account "+accountId+". Please check openhab.cfg or withings.cfg.");
         }
     }
     
@@ -75,17 +78,11 @@ public class WithingsAuthenticator implements ManagedService {
         WithingsAccount withingsAccount = getAccount(accountId);
         if (withingsAccount == null) {
             logger.error("Couldn't find Credentials of Account '"+accountId+"'. Please check openhab.cfg or withings.cfg.");
-            return;
+            throw new NullPointerException("Couldn't find Credentials of Account "+accountId+". Please check openhab.cfg or withings.cfg.");
         }
-        String accId = withingsAccount.getAccountId();
-        if(accId != null && accId.equals(accountId)){
-	        withingsAccount.setUserId(userId);
-	        withingsAccount.registerAccount(componentContext.getBundleContext());
-	        withingsAccount.persist();
-        }else{
-        	logger.error("Couldn't finish authentication for Account '"+accId+"' current account is set to '"+accountId+"'");
-            return;
-        }
+        withingsAccount.setUserId(userId);
+        withingsAccount.registerAccount(componentContext.getBundleContext());
+        withingsAccount.persist();
         printAuthenticationSuccessful();
     }
     
@@ -107,13 +104,16 @@ public class WithingsAuthenticator implements ManagedService {
     
 	@Override
 	public void updated(Dictionary<String, ?> config) throws ConfigurationException {
+		System.out.println(LINE);
+		System.out.println("# Withings authentication update using dicrionary: ");
+		System.out.println(LINE);
 		if (config != null) {
 			
 			String proxyBaseUrl = (String) config.get("proxyUrl");
             if (StringIoUtils.isNotBlank(proxyBaseUrl)) {
                 proxyUrl = proxyBaseUrl;
             }
-			
+            
             Enumeration<String> configKeys = config.keys();
             while (configKeys.hasMoreElements()) {
                 String configKey = configKeys.nextElement();
@@ -155,10 +155,66 @@ public class WithingsAuthenticator implements ManagedService {
                     throw new ConfigurationException(configKey, msg);
                 }
             }
-
+            System.out.println("# Withings authentication is regitering accounts: " + accountsCache);
             registerAccounts();
+        }else{
+        	File file = null;
+            WithingsPersist persist = WithingsPersist.getNewWithingsPersist();
+            try {
+            	if(persist.isLegacyConfiguration()){
+            		file = new File(WithingsPersist.CONFIG_DIR + File.separator + "openhab.cfg");
+                } else {
+                    file = new File(WithingsPersist.CONTENT_DIR + File.separator + WithingsPersist.SERVICE_NAME + ".cfg");
+                }
+            	if (file.exists()) {
+            		Map<String, String> configContent = persist.load(file);
+            		for(Entry<String,String> entry : configContent.entrySet()){
+            			String keyUser = entry.getKey();
+            			if(keyUser.equals("refresh") || !keyUser.contains(".")) {
+            				continue;
+            			}
+            			String[] keyElements = keyUser.split("\\.");
+            			
+            			if(keyElements.length==2) {
+            				String accountId = keyElements[0];
+            				String userId ="", proxyUrl="";
+            				String subKey = keyElements[1];
+            				WithingsAccount account;
+            				if(subKey.equals("userid")){
+            					userId = entry.getValue();
+            					if(!accountsCache.containsKey(accountId)){
+            						account = new WithingsAccount(accountId, proxyUrl);
+            						accountsCache.put(accountId, account);
+            					} else account = accountsCache.get(accountId);
+            					account.setUserId(userId);
+            				}else if(subKey.equals("proxy")){
+            					proxyUrl = entry.getValue();
+            					if(accountsCache.containsKey(accountId)) account = accountsCache.get(accountId);
+            					else {
+            						account = new WithingsAccount(accountId, proxyUrl);
+            						accountsCache.put(accountId, account);
+            					}
+            					account.setProxyUrl(proxyUrl);
+            				}else{
+            					String msg = "The sub-configuration key '" + subKey + "' is not recognized and will be ignored.";
+                                logger.warn(msg);
+                                throw new ConfigurationException(subKey, msg);
+            				}
+            			} else{
+            				String msg = "The configuration key '" + keyUser + "' is not recognized and will be ignored.";
+                            logger.warn(msg);
+                            throw new ConfigurationException(keyUser, msg);
+            			}
+            		}
+            		if(!accountsCache.isEmpty()){
+            			System.out.println("Using pre-defined accounts from file: " + file.getAbsolutePath());
+            			for(Entry<String, WithingsAccount> entry : accountsCache.entrySet()) System.out.println(entry.getValue().toString());
+            		}
+                }
+            }catch (IOException ioe) {
+                logger.warn("Couldn't write Withings account to file '{}'.", file.getAbsolutePath());
+            }
         }
-		
 	}
 	
 	private void registerAccounts() {
