@@ -63,7 +63,7 @@
 		<commons.version>2.6</commons.version>
 		<commons.logging>1.2</commons.logging>
 		<gson.version>2.2.4</gson.version>
-		<spring.version>2.1.4.RELEASE</spring.version>
+		<spring.version>2.5.12</spring.version>
 		<bundle.plugin.version>4.2.0</bundle.plugin.version>
   </properties>
   
